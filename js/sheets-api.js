@@ -16,7 +16,7 @@ const SHEETS_CONFIG = {
   WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbyiyoJquqN3VXy76bY4blNMAuHfUqHD8TpArX7odPeOf7lny9u3AZniBXeLCW6KNMbs7w/exec',
 
   // ── Google OAuth Client ID ────────────────────────────────
-  GOOGLE_CLIENT_ID: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+  GOOGLE_CLIENT_ID: '402635557652-oe3kf8598eeppvisnkdq2v7j6en9frf8.apps.googleusercontent.com',
 
   // ── Judge0 for code execution (optional) ─────────────────
   JUDGE0_URL: 'https://judge0-ce.p.rapidapi.com',

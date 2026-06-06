@@ -1,0 +1,3 @@
+email,password,name,role
+admin@institution.edu,YourSecurePassword123,Head Admin,superadmin
+proctor1@institution.edu,ProctorPass456,Proctor One,proctor

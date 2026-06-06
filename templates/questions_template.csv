@@ -1,0 +1,13 @@
+title,description,marks,time_limit_seconds,allowed_languages,sample_input,sample_output
+FizzBuzz Classic,"Write a program that prints numbers from 1 to N. For multiples of 3 print Fizz, for multiples of 5 print Buzz, for both print FizzBuzz.",10,2,"python,java,cpp",5,"1
+2
+Fizz
+4
+Buzz"
+Fibonacci Sequence,"Given N, print the first N Fibonacci numbers space-separated.",10,2,python,8,0 1 1 2 3 5 8 13
+Prime Checker,"Given T test cases, print Prime or Not Prime for each number.",10,3,"python,java,cpp","5
+2 3 4 17 100","Prime
+Prime
+Not Prime
+Prime
+Not Prime"

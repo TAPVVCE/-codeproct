@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeProct — Admin Portal</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+  <!-- HEADER (reused) -->
+  <header id="mainHeader">
+    <div class="logo">CODE<span>PROCT</span></div>
+    <nav id="mainNav"></nav>
+  </header>
+
+  <!-- ADMIN PORTAL CONTAINER -->
+  <div id="adminPortal"></div>
+
+  <!-- SCRIPTS -->
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+
+  <script>
+    // Admin portal auto-init (direct URL access)
+    window.addEventListener('DOMContentLoaded', () => {
+      // Check if already authenticated
+      const savedAdmin = Utils.loadLocal('adminSession');
+      if (savedAdmin) {
+        App.state.admin = savedAdmin;
+        App.setNavAdmin();
+        Utils.show('adminPortal');
+        AdminPortal.init();
+      } else {
+        AdminAuth.showLoginModal();
+      }
+    });
+  </script>
+</body>
+</html>

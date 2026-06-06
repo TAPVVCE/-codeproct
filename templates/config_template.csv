@@ -1,0 +1,2 @@
+duration_minutes,start_datetime,video_proctoring,tab_detection,paste_blocked,fullscreen_required,access_code,max_violations
+45,2025-06-15 10:00:00,TRUE,TRUE,TRUE,TRUE,,5

@@ -13,7 +13,7 @@
 const SHEETS_CONFIG = {
   // ── Paste your Apps Script Web App URL here ──────────────
   // Example: https://script.google.com/macros/s/AKfy.../exec
-  WEB_APP_URL: 'YOUR_WEB_APP_URL_HERE',
+  WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbyiyoJquqN3VXy76bY4blNMAuHfUqHD8TpArX7odPeOf7lny9u3AZniBXeLCW6KNMbs7w/exec',
 
   // ── Google OAuth Client ID ────────────────────────────────
   GOOGLE_CLIENT_ID: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',

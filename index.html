@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeProct — Proctored Coding Assessment Platform</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/playground.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+  <div id="mobileBlock" class="mobile-block hidden">
+    <div class="mobile-block-inner">
+      <div class="mobile-icon">🖥️</div>
+      <h2>Desktop Only</h2>
+      <p>This assessment platform is only accessible on a laptop or desktop computer.<br>
+         Mobile phones, tablets, and smart watches are not permitted.</p>
+    </div>
+  </div>
+
+  <header id="mainHeader">
+    <div class="logo">CODE<span>PROCT</span></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-size:10px;color:#22c55e;font-weight:600;letter-spacing:0.5px">● Google Sheets</span>
+    </div>
+    <nav id="mainNav">
+      <button class="btn btn-ghost" onclick="App.showPage('adminLogin')">Admin Portal</button>
+      <button class="btn btn-primary" onclick="App.showPage('studentLogin')">Take Assessment</button>
+    </nav>
+  </header>
+
+  <main id="landingPage" class="page active">
+    <div class="landing-split">
+      <section class="hero-section">
+        <div class="hero-badge">🔒 ENTERPRISE PROCTORED TESTING</div>
+        <h1 class="hero-title">
+          The Coding Assessment<br>Platform Built for<br>
+          <span class="accent">100,000+ Students</span>
+        </h1>
+        <p class="hero-desc">
+          Administer secure, proctored coding assessments in Java, Python, and C++.
+          All data — student details, code answers, scores, violations — saved
+          <strong style="color:var(--accent)">automatically to Google Sheets</strong>.
+          Free, unlimited storage.
+        </p>
+        <ul class="feature-list">
+          <li>All data saved to Google Sheets — free and unlimited</li>
+          <li>Full-screen lockdown with tab-switch and blur detection</li>
+          <li>Video proctoring with IP tracking and Google OAuth</li>
+          <li>Per-question language restriction by admin</li>
+          <li>Auto-save student code to Sheets every 30 seconds</li>
+          <li>Instant marks and rankings on submission</li>
+          <li>Copy / paste / right-click / DevTools blocked</li>
+          <li>Mobile, tablet and smartwatch access blocked</li>
+        </ul>
+        <div class="cta-group">
+          <button class="btn btn-primary btn-lg" onclick="App.showPage('studentLogin')">Start Assessment</button>
+          <button class="btn btn-outline btn-lg" onclick="App.showPage('adminLogin')">Admin Login</button>
+        </div>
+        <div class="playground-hint">
+          <span class="hint-label">VISITOR PLAYGROUND</span>
+          <span class="hint-text">Try the live code editor on the right. Write and run Java, Python or C++ instantly. No login required.</span>
+        </div>
+      </section>
+
+      <section class="playground-section">
+        <div class="playground-header">
+          <span class="playground-title">LIVE CODE PLAYGROUND</span>
+          <div class="lang-tabs" id="playLangTabs">
+            <button class="lang-tab active" data-lang="python" onclick="Playground.switchLang('python',this)">Python</button>
+            <button class="lang-tab" data-lang="java" onclick="Playground.switchLang('java',this)">Java</button>
+            <button class="lang-tab" data-lang="cpp" onclick="Playground.switchLang('cpp',this)">C++</button>
+          </div>
+        </div>
+        <div class="playground-body">
+          <div class="editor-wrap">
+            <div class="line-numbers" id="playLineNums">1</div>
+            <textarea id="playCode" class="code-editor" spellcheck="false"
+              autocomplete="off" autocorrect="off" autocapitalize="off"
+              oninput="Playground.onCodeInput(this)"
+              onkeydown="Playground.handleTab(event)"></textarea>
+          </div>
+          <div class="io-split">
+            <div class="io-pane">
+              <div class="io-label">STDIN / INPUT</div>
+              <textarea id="playInput" class="io-editor" placeholder="Enter input here..."></textarea>
+            </div>
+            <div class="io-pane">
+              <div class="io-label">OUTPUT <button class="run-btn" onclick="Playground.run()">RUN</button></div>
+              <div id="playOutput" class="io-output">Click RUN to execute your code.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="studentLoginPage" class="page modal-page hidden">
+    <div class="auth-card">
+      <div class="auth-card-logo">CODE<span>PROCT</span></div>
+      <h2>Student Assessment Login</h2>
+      <p class="auth-sub">Sign in with your Google account to access the proctored assessment.</p>
+      <div class="ip-info-box">
+        IP: <strong id="detectedIP">Detecting...</strong> | Tracking auto-enabled | Saved to Google Sheets
+      </div>
+      <div id="g_id_onload"
+        data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+        data-callback="Auth.handleGoogleResponse"
+        data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin"
+        data-type="standard" data-size="large"
+        data-theme="outline" data-text="signin_with"
+        data-shape="rectangular" data-logo_alignment="left">
+      </div>
+      <button class="google-btn-demo" onclick="Auth.demoGoogleLogin()" style="margin-top:10px">
+        <svg width="18" height="18" viewBox="0 0 18 18">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 6.293C4.672 4.166 6.656 3.58 9 3.58z"/>
+        </svg>
+        Continue with Google (Demo)
+      </button>
+      <button class="btn btn-ghost btn-sm" onclick="App.showPage('landing')" style="margin-top:12px;width:100%">Back to Home</button>
+    </div>
+  </div>
+
+  <div id="studentDetailsPage" class="page modal-page hidden">
+    <div class="auth-card auth-card-wide">
+      <div class="auth-status-bar">
+        <span class="status-check">Google Authenticated</span>
+        <span id="authEmail" class="auth-email-display"></span>
+      </div>
+      <h2>Complete Your Details</h2>
+      <p class="auth-sub">Fill in your institutional details. All information is saved to Google Sheets.</p>
+      <div class="ip-info-box">
+        IP Logged: <strong id="detailsIP">-</strong> | Device: <strong id="deviceCheck">Checking...</strong> | Google: <strong id="authEmailSmall">-</strong>
+      </div>
+      <div class="form-grid">
+        <div class="form-field full-width">
+          <label>FULL NAME <span class="req">*</span></label>
+          <input type="text" id="stName" placeholder="As per institution records" required>
+        </div>
+        <div class="form-field">
+          <label>USN / ROLL NUMBER <span class="req">*</span></label>
+          <input type="text" id="stUSN" placeholder="1XX21CS000" required>
+        </div>
+        <div class="form-field">
+          <label>PHONE NUMBER <span class="req">*</span></label>
+          <input type="tel" id="stPhone" placeholder="+91 XXXXXXXXXX" required>
+        </div>
+        <div class="form-field full-width">
+          <label>COLLEGE EMAIL ID <span class="req">*</span></label>
+          <input type="email" id="stEmail" placeholder="yourname@college.edu" required>
+        </div>
+      </div>
+      <div class="terms-notice">
+        By proceeding you agree to be monitored via webcam and IP tracking throughout the assessment.
+        All details and code answers are automatically saved to Google Sheets.
+      </div>
+      <button id="beginTestBtn" class="btn btn-primary btn-block" onclick="Auth.beginTest()">
+        Begin Proctored Assessment
+      </button>
+    </div>
+  </div>
+
+  <div id="testPage"></div>
+  <div id="adminPortal" class="hidden" style="display:flex;height:calc(100vh - 52px)"></div>
+
+  <script src="js/sheets-api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/playground.js"></script>
+  <script src="js/auth-sheets.js"></script>
+  <script src="js/test-sheets.js"></script>
+  <script src="js/admin-sheets.js"></script>
+</body>
+</html>

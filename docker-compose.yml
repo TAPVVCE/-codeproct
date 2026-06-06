@@ -1,0 +1,117 @@
+# ============================================================
+# CODEPROCT — docker-compose.yml
+# Full stack: App Server + Self-hosted Judge0 + Redis
+# ============================================================
+
+version: '3.9'
+
+services:
+
+  # ── CodeProct App ──────────────────────────────────────────
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      JWT_SECRET: "change_this_to_a_strong_secret_in_production"
+      JUDGE0_URL: "http://judge0-server:2358"
+      JUDGE0_KEY: ""
+      NODE_ENV: production
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+      - ./codeproct_results.xlsx:/app/codeproct_results.xlsx
+    depends_on:
+      - judge0-server
+    restart: unless-stopped
+    networks:
+      - codeproct-net
+
+  # ── Judge0 Server (self-hosted code execution) ─────────────
+  judge0-server:
+    image: judge0/judge0:latest
+    volumes:
+      - ./judge0.conf:/judge0.conf:ro
+    ports:
+      - "2358:2358"
+    privileged: true
+    restart: unless-stopped
+    networks:
+      - codeproct-net
+    environment:
+      REDIS_URL: "redis://redis:6379"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_USER: "judge0"
+      POSTGRES_PASSWORD: "judge0pass"
+      POSTGRES_DB: "judge0"
+    depends_on:
+      - redis
+      - postgres
+
+  # ── Judge0 Workers (scale for more concurrent executions) ──
+  judge0-worker:
+    image: judge0/judge0:latest
+    command: ["./scripts/workers"]
+    volumes:
+      - ./judge0.conf:/judge0.conf:ro
+    privileged: true
+    restart: unless-stopped
+    networks:
+      - codeproct-net
+    environment:
+      REDIS_URL: "redis://redis:6379"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_USER: "judge0"
+      POSTGRES_PASSWORD: "judge0pass"
+      POSTGRES_DB: "judge0"
+    depends_on:
+      - redis
+      - postgres
+    # Scale to 20 workers for 1 lakh students:
+    # docker-compose up --scale judge0-worker=20
+
+  # ── Redis (job queue + session cache) ─────────────────────
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    networks:
+      - codeproct-net
+    volumes:
+      - redis-data:/data
+
+  # ── PostgreSQL (optional: replace SQLite for production) ───
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: judge0
+      POSTGRES_PASSWORD: judge0pass
+      POSTGRES_DB: judge0
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - codeproct-net
+
+  # ── Nginx Reverse Proxy ────────────────────────────────────
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - codeproct-net
+
+networks:
+  codeproct-net:
+    driver: bridge
+
+volumes:
+  redis-data:
+  postgres-data:
